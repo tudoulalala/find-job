@@ -1,0 +1,13 @@
+{
+  "name": "self-exploration-career-recommender",
+  "version": "1.0.0",
+  "description": "자기 탐색 및 직업 추천 프로그램 (claud.md 기획 기반)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}

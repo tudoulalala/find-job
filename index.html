@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>자기 탐색 & 직업 추천 검사</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <h1>🧭 자기 탐색 &amp; 직업 추천</h1>
+      <p class="subtitle">흥미(RIASEC) · 적성 · 가치관을 바탕으로 나에게 맞는 직업을 찾아보세요.</p>
+    </header>
+
+    <!-- 시작 화면 -->
+    <section id="screen-intro" class="screen active">
+      <div class="card">
+        <h2>검사 안내</h2>
+        <ul class="intro-list">
+          <li>홀랜드(Holland) RIASEC 이론 기반의 흥미 검사입니다.</li>
+          <li>총 <strong>24문항</strong>, 5점 척도로 응답합니다. (약 3~5분 소요)</li>
+          <li>이어서 <strong>적성 자기평가 12문항</strong>으로 강점을 점검합니다.</li>
+          <li>가장 중요하게 생각하는 <strong>가치관</strong>을 선택합니다.</li>
+          <li>간단한 <strong>성격 성향(MBTI-lite) 8문항</strong>도 함께 확인합니다.</li>
+          <li>결과로 나의 흥미 코드 분석과 <strong>맞춤 직업 목록</strong>을 제공합니다.</li>
+        </ul>
+        <button id="btn-start" class="btn btn-primary">검사 시작하기</button>
+      </div>
+    </section>
+
+    <!-- 검사 화면 -->
+    <section id="screen-quiz" class="screen">
+      <div class="card">
+        <div class="progress-wrap">
+          <div class="progress-bar"><div id="progress-fill" class="progress-fill"></div></div>
+          <span id="progress-text">0 / 24</span>
+        </div>
+        <p class="question-code" id="question-code"></p>
+        <h2 id="question-text">질문</h2>
+        <div class="scale" id="scale-buttons">
+          <button class="scale-btn" data-value="1">매우 싫다</button>
+          <button class="scale-btn" data-value="2">싫다</button>
+          <button class="scale-btn" data-value="3">보통</button>
+          <button class="scale-btn" data-value="4">좋다</button>
+          <button class="scale-btn" data-value="5">매우 좋다</button>
+        </div>
+        <button id="btn-back" class="btn btn-ghost">이전 문항</button>
+      </div>
+    </section>
+
+    <!-- 적성 자기평가 화면 -->
+    <section id="screen-aptitude" class="screen">
+      <div class="card">
+        <div class="progress-wrap">
+          <div class="progress-bar"><div id="apt-progress-fill" class="progress-fill"></div></div>
+          <span id="apt-progress-text">0 / 12</span>
+        </div>
+        <p class="question-code" id="apt-question-code"></p>
+        <h2 id="apt-question-text">질문</h2>
+        <div class="scale" id="apt-scale-buttons">
+          <button class="scale-btn" data-value="1">전혀 그렇지 않다</button>
+          <button class="scale-btn" data-value="2">그렇지 않다</button>
+          <button class="scale-btn" data-value="3">보통</button>
+          <button class="scale-btn" data-value="4">그렇다</button>
+          <button class="scale-btn" data-value="5">매우 그렇다</button>
+        </div>
+        <button id="btn-apt-back" class="btn btn-ghost">이전 문항</button>
+      </div>
+    </section>
+
+    <!-- 가치관 선택 화면 -->
+    <section id="screen-values" class="screen">
+      <div class="card">
+        <h2>가치관 선택</h2>
+        <p>일을 할 때 가장 중요하게 생각하는 것을 <strong>1개</strong> 선택해주세요.</p>
+        <div class="value-options" id="value-options">
+          <button class="value-btn" data-value="성취감">🏆 성취감</button>
+          <button class="value-btn" data-value="안정성">🛡️ 안정성</button>
+          <button class="value-btn" data-value="높은 보수">💰 높은 보수</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 성격 성향(MBTI-lite) 검사 화면 -->
+    <section id="screen-mbti" class="screen">
+      <div class="card">
+        <div class="progress-wrap">
+          <div class="progress-bar"><div id="mbti-progress-fill" class="progress-fill"></div></div>
+          <span id="mbti-progress-text">0 / 8</span>
+        </div>
+        <p class="question-code">성격 성향</p>
+        <h2 id="mbti-question-text">질문</h2>
+        <div class="scale" id="mbti-scale-buttons">
+          <button class="scale-btn" data-value="1">전혀 그렇지 않다</button>
+          <button class="scale-btn" data-value="2">그렇지 않다</button>
+          <button class="scale-btn" data-value="3">보통</button>
+          <button class="scale-btn" data-value="4">그렇다</button>
+          <button class="scale-btn" data-value="5">매우 그렇다</button>
+        </div>
+        <button id="btn-mbti-back" class="btn btn-ghost">이전 문항</button>
+      </div>
+    </section>
+
+    <!-- 결과 화면 -->
+    <section id="screen-result" class="screen">
+      <div class="card">
+        <h2>나의 분석 결과</h2>
+        <div id="riasec-chart" class="riasec-chart"></div>
+        <p class="result-codes">핵심 흥미 코드: <strong id="top-codes"></strong></p>
+        <h3>적성 자기평가</h3>
+        <div id="aptitude-chart" class="riasec-chart"></div>
+        <p class="result-codes">핵심 적성 코드: <strong id="top-apt-codes"></strong></p>
+        <p class="result-value">중요 가치관: <strong id="top-value"></strong></p>
+        <p class="result-mbti">성격 성향: <strong id="top-mbti"></strong></p>
+        <p class="mbti-desc" id="mbti-desc"></p>
+
+        <h3>추천 직업 목록</h3>
+        <div id="job-list" class="job-list"></div>
+        <div id="job-more-wrap" class="job-more-wrap"></div>
+
+        <div class="share-actions no-print">
+          <button id="btn-copy" class="btn btn-secondary">📋 결과 복사하기</button>
+          <button id="btn-print" class="btn btn-secondary">🖨️ 인쇄/PDF로 저장</button>
+        </div>
+        <span id="copy-toast" class="copy-toast"></span>
+
+        <button id="btn-restart" class="btn btn-primary no-print">다시 검사하기</button>
+      </div>
+    </section>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
