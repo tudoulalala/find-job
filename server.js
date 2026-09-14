@@ -67,6 +67,12 @@ app.post("/api/recommend", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`서버 실행 중: http://localhost:${PORT}`);
-});
+// Vercel 등 서버리스 환경에서는 이 모듈을 그대로 핸들러로 사용하고,
+// 로컬(`node server.js`)에서 직접 실행할 때만 포트를 열어 리슨한다.
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`서버 실행 중: http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;
